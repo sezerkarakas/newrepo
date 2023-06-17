@@ -1,0 +1,84 @@
+function Details(props) {
+  const [data, setData] = useState([{}]);
+
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [activeTab, setActiveTab] = useState("about");
+  const [activePhoto, setActivePhoto] = useState(Image1);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get("/get/:id");
+      console.log(response.data);
+      setData(response.data);
+      props = data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  return (
+    <>
+      <Navbar isScrolled={isScrolled} />
+      <div style={{ marginTop: 100 }} className="container">
+        <h1>Supra</h1>
+        <hr />
+        <div className="row">
+          <div>
+            <b>Kategori: </b>
+            <a href="/category">{data.categoryName}</a>
+          </div>
+          <div className="col-md-6">
+            <div>
+              <img
+                className={`${activePhoto == Image1 ? "active" : ""}`}
+                onClick={() => setActivePhoto}
+                src={Image1}
+                style={{ width: "90%", height: "90%" }}
+              />
+            </div>
+
+          </div>
+          
+            <Divider />
+            <div className="d-flex flex-nowrap justify-content-between">
+              <b>İlan No</b>
+              <p>201354</p>
+            </div>
+            <Divider />
+            <div className="d-flex flex-nowrap justify-content-between">
+              <b>İlan Tarihi</b>
+              <p>10 Mayıs 2023</p>
+            </div>
+            <Divider />
+
+            <VehicleDetails
+              agirhasarkayit={props.agirhasarkayit}
+              durumu={props.durumu}
+              garanti={props.garanti}
+              kasatipi={props.kasatipi}
+              marka={props.marka}
+              model={props.model}
+              motorgucu={props.motorgucu}
+              motorhacmi={props.motorhacmi}
+              renk={props.renk}
+              seri={props.seri}
+              vites={props.vites}
+              yil={props.yil}
+            />
+          </div>
+
+          <UserContact name={"Sezer Karakaş"} phoneNumber={"2565691216"} />
+        </div>
+        <br />
+      
+            </div>
+          </div>
+        </div>
+      </div>
+      <Footer />
+    </>
+  );
+}
