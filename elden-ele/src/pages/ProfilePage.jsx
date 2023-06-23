@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 import styled from "styled-components";
 import Navbar from "../components/Navbar";
@@ -23,6 +23,20 @@ const ProfilePage = () => {
         price: "200 TL",
       },
     ];
+
+    useEffect(()=> {
+      fetchData();
+    },[]);
+
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/")
+      } catch (error) {
+        
+      }
+    }
+
+    
   
     const [isScrolled, setIsScrolled] = useState(false);
      window.onscroll = () => {
