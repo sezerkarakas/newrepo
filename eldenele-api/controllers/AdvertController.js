@@ -7,11 +7,14 @@ const Fashion = require("../models/category_models/FashionModel");
 const HomeAndGarden = require("../models/category_models/HomeAndGardenModel");
 const SecondHand = require("../models/category_models/SecondHandModel");
 const SparePart = require("../models/category_models/SparePartModel");
+const Image = require("../models/ImageModel");
+const fs = require("fs");
+const User = require("../models/UserModel");
 
 const getAllAdverts = async (req, res) => {
   try {
     const adverts = await Advert.find({});
-   
+
     console.log("başarı");
     res.json(adverts);
     res.end();
@@ -23,7 +26,7 @@ const getAllAdverts = async (req, res) => {
 const getAdvert = async (req, res) => {
   try {
     const advert = await Advert.findById(req.params.id);
-    console.log(advert);
+
     res.json(advert);
     res.end();
   } catch (error) {
@@ -31,10 +34,22 @@ const getAdvert = async (req, res) => {
   }
 };
 
+const getUsersAdverts = async (req, res) => {
+  try {
+    const kullaniciId = req.params.kullaniciId;
+    const ilanlar = await Advert.find({ userId: kullaniciId });
+
+    res.json(ilanlar);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("İlanlar alınırken bir hata oluştu.");
+  }
+};
+
 const newVehicleAdvert = async (req, res) => {
   try {
     const v = await Vehicle.create(req.body);
-    console.log(v);
+
     res.json(v);
     res.end();
   } catch (error) {
@@ -44,7 +59,7 @@ const newVehicleAdvert = async (req, res) => {
 const newResidenceAdvert = async (req, res) => {
   try {
     const v = await Residence.create(req.body);
-    console.log(v);
+
     res.json(v);
     res.end();
   } catch (error) {
@@ -54,7 +69,7 @@ const newResidenceAdvert = async (req, res) => {
 const newElectronicAdvert = async (req, res) => {
   try {
     const v = await Electronic.create(req.body);
-    console.log(v);
+
     res.json(v);
     res.end();
   } catch (error) {
@@ -64,7 +79,7 @@ const newElectronicAdvert = async (req, res) => {
 const newFashionAdvert = async (req, res) => {
   try {
     const v = await Fashion.create(req.body);
-    console.log(v);
+
     res.json(v);
     res.end();
   } catch (error) {
@@ -75,7 +90,7 @@ const newFashionAdvert = async (req, res) => {
 const newHomeAndGardenAdvert = async (req, res) => {
   try {
     const v = await HomeAndGarden.create(req.body);
-    console.log(v);
+
     res.json(v);
     res.end();
   } catch (error) {
@@ -85,7 +100,7 @@ const newHomeAndGardenAdvert = async (req, res) => {
 const newSecondHandAdvert = async (req, res) => {
   try {
     const v = await SecondHand.create(req.body);
-    console.log(v);
+
     res.json(v);
     res.end();
   } catch (error) {
@@ -95,7 +110,7 @@ const newSecondHandAdvert = async (req, res) => {
 const newSparePartAdvert = async (req, res) => {
   try {
     const v = await SparePart.create(req.body);
-    console.log(v);
+
     res.json(v);
     res.end();
   } catch (error) {
@@ -128,11 +143,39 @@ const newCategory = async (req, res) => {
     await Category.create(req.body);
     console.log("kategori başarıyla eklendi!");
     const cat = await Category.find({});
-    console.log(cat);
+
     res.end();
   } catch (error) {
     console.log(error);
   }
+};
+
+const uploadImage = (req, res) => {
+  const { path, mimetype } = req.file;
+  const img = fs.readFileSync(path);
+  const encodedImg = img.toString("base64");
+
+  const finalImg = {
+    contentType: mimetype,
+    image: Buffer.from(encodedImg, "base64"),
+  };
+
+  const newPhoto = new Image({
+    data: finalImg,
+  });
+
+  newPhoto
+    .save()
+    .then(() => {
+      console.log(newPhoto);
+      res.status(200).send("file uploaded");
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("An error occurred while uploading the file.");
+    });
+
+  res.sendStatus(200);
 };
 
 module.exports = {
@@ -148,4 +191,6 @@ module.exports = {
   newSparePartAdvert,
   deleteAdvert,
   updateAdvert,
+  uploadImage,
+  getUsersAdverts,
 };

@@ -1,5 +1,15 @@
 const User = require("../models/UserModel");
 
+module.exports.getUser = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    res.json(user);
+    res.end();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports.getLikedAds = async (req, res) => {
   try {
     const { email } = req.params;
@@ -15,30 +25,28 @@ module.exports.getLikedAds = async (req, res) => {
 };
 
 module.exports.addToLikedAds = async (req, res) => {
-    try {
-      const { email, likedList } = req.body;
-      const user = await User.findOne({ email });
-      if (user) {
-        const { likedAds } = user;
-        const adId = likedList[likedList.length - 1];
-        const adAlreadyLiked = likedAds.some((ad) => ad === adId);
-        if (!adAlreadyLiked) {
-          user.likedAds.push(likedList[likedList.length - 1]);
-          await user.save();
-          return res.json({ msg: "Ad successfully added to the liked list." });
-        } else {
-          return res.json({ msg: "Ad already added to the liked list." });
-        }
-      } else {
-        await User.create({ email, likedAds: likedList });
+  try {
+    const { email, likedList } = req.body;
+    const user = await User.findOne({ email });
+    if (user) {
+      const { likedAds } = user;
+      const adId = likedList[likedList.length - 1];
+      const adAlreadyLiked = likedAds.some((ad) => ad === adId);
+      if (!adAlreadyLiked) {
+        user.likedAds.push(likedList[likedList.length - 1]);
+        await user.save();
         return res.json({ msg: "Ad successfully added to the liked list." });
+      } else {
+        return res.json({ msg: "Ad already added to the liked list." });
       }
-    } catch (error) {
-      return res.json({ msg: "Error adding ad to the liked list" });
+    } else {
+      await User.create({ email, likedAds: likedList });
+      return res.json({ msg: "Ad successfully added to the liked list." });
     }
-  };
-  
-  
+  } catch (error) {
+    return res.json({ msg: "Error adding ad to the liked list" });
+  }
+};
 
 module.exports.removeAdLikedMovies = async (req, res) => {
   try {

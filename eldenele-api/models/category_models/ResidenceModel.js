@@ -10,9 +10,9 @@ const ResidenceSchema = new Schema({
   katSayisi: { type: String, required: true },
   isitma: { type: String, required: true },
   banyoSayisi: { type: Number, required: true },
-  balkon: { type: Boolean, required: true },
-  esyali: { type: Boolean, required: true },
-  siteIcerisinde: { type: Boolean, required: true },
+  balkon: { type: String, required: true },
+  esyali: { type: String, required: true },
+  siteIcerisinde: { type: String, required: true },
   aidatBilgileri: { type: String, required: true },
 });
 

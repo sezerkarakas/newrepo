@@ -11,13 +11,12 @@ import { toast } from "react-toastify";
 import { DB_URL } from "../store/URL";
 import "react-toastify/dist/ReactToastify.css";
 
-export default function Card({ title, image, price, _id, isLiked = false }) {
+export default function Card({ key,title, image, price, _id, isLiked }) {
   const dispatch = useDispatch();
   const [email, setEmail] = useState(undefined);
   const [likedList, setLikedList] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [data, setData] = useState({});
-
   useEffect(() => {
     onAuthStateChanged(firebaseAuth, (currentUser) => {
       if (currentUser) {
@@ -92,12 +91,12 @@ export default function Card({ title, image, price, _id, isLiked = false }) {
 
   return (
     <CardContainer>
-      <Link to={`/ilan/${data._id}`} activeClassName="active-link">
+      <Link to={`/ilan/${_id}`} activeClassName="active-link">
         <CardImage src={image} alt={title} />
       </Link>
       <CardContent>
         <div className="card-content">
-          <Link to={`/ilan/${data._id}`} style={linkStyle}
+          <Link to={`/ilan/${_id}`} style={linkStyle}
           onClick={fetchOneData}>
             <CardTitle>{title}</CardTitle>
           </Link>

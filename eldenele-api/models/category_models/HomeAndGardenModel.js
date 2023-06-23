@@ -10,7 +10,7 @@ const HomeAndGardenSchema = new Schema({
   marka: { type: String, required: true },
   renk: { type: String, required: true },
   durumu: { type: String, required: true },
-  garanti: { type: Boolean, required: true },
+  garanti: { type: String, required: true },
 });
 
 const HomeAndGarden = Advert.discriminator(

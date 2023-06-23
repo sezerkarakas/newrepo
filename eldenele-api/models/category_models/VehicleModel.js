@@ -8,7 +8,7 @@ const VehicleSchema = new Schema({
   marka: { type: String, required: true },
   seri: { type: String, required: true },
   model: { type: String, required: true },
-  yil: { type: Date, required: true },
+  yil: { type: String, default: () => Date, required: true },
   vites: { type: String, required: true },
   agirhasarkayit: { type: String, required: true },
   kasatipi: { type: String, required: true },

@@ -23,7 +23,7 @@ function App() {
         <Route exact path="/profile" element={<ProfilePage />} />
         <Route exact path="/ilanguncelle" element={<UpdatePage />} />
         <Route path="/category" element={<Categories />} />
-        <Route path="ilan/:id" element={<Details />} />
+        <Route path="/ilan/:id" element={<Details />} />
         <Route exact path="/message" element={<MessageInterface />} />
         <Route exact path="/search" element={<ProductSearch />} />
         <Route exact path="/test" element={<Test />} />

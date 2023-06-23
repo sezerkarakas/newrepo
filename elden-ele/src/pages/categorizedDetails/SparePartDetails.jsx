@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
-function SparePartDetails({ marka, model, parcaAdi, parcaNumarasi, durumu }) {
+function SparePartDetails({ data }) {
+  const { marka, model, parcaAdi, parcaNumarasi, durumu } = data;
   return (
     <>
       <div className="d-flex flex-nowrap justify-content-between">

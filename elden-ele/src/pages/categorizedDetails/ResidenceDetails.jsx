@@ -1,15 +1,16 @@
 import styled from "styled-components";
-function ResidenceDetails({
-  odaSayisi,
-  binaYasi,
-  katSayisi,
-  isitma,
-  banyoSayisi,
-  balkon,
-  esyali,
-  siteIcerisinde,
-  aidatBilgileri,
-}) {
+function ResidenceDetails({ data }) {
+  const {
+    odaSayisi,
+    binaYasi,
+    katSayisi,
+    isitma,
+    banyoSayisi,
+    balkon,
+    esyali,
+    siteIcerisinde,
+    aidatBilgileri,
+  } = data;
   return (
     <>
       <div className="d-flex flex-nowrap justify-content-between">

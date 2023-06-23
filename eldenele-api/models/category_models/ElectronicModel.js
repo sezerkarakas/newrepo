@@ -9,7 +9,7 @@ const ElectronicSchema = new Schema({
   model: { type: String, required: true },
   turu: { type: String, required: true },
   renk: { type: String, required: true },
-  garanti: { type: Boolean, required: true },
+  garanti: { type: String, required: true },
 });
 
 const Electronic = Advert.discriminator("Electronic", ElectronicSchema);

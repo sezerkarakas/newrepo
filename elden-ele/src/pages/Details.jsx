@@ -3,16 +3,37 @@ import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import styled from "styled-components";
 import UserContact from "../components/UserContact";
-import VehicleDetails from "./categorizedDetails/VehicleDetails";
 import Image1 from "../assets/ilan2.jpg";
 import Image2 from "../assets/ilan1.jpg";
 import Footer from "../components/Footer";
 import axios from "axios";
+import { useParams } from "react-router-dom";
+import VehicleDetails from "./categorizedDetails/VehicleDetails";
+import ResidenceDetails from "./categorizedDetails/ResidenceDetails";
+import FashionDetails from "./categorizedDetails/FashionDetails";
+import HomeAndGardenDetails from "./categorizedDetails/HomeAndGardenDetails";
+import SecondHandDetails from "./categorizedDetails/SecondHandDetails";
+import SparePartDetails from "./categorizedDetails/SparePartDetails";
+import ElectronicDetails from "./categorizedDetails/ElectronicDetails";
 
 function Details(props) {
   const [data, setData] = useState({});
+  const { id } = useParams();
+  const { categoryName } = data;
+  let categorizedDetailsComponent;
 
   useEffect(() => {
+    const fetchData = async (req, res) => {
+      try {
+        const response = await axios.get(`http://localhost:3000/get/${id}`);
+        const data = response.data;
+        console.log(data);
+        setData(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
     fetchData();
   }, []);
 
@@ -33,21 +54,43 @@ function Details(props) {
     return () => (window.onscroll = null);
   };
 
-  const fetchData = useCallback(async () => {
-    try {
-      const response = await axios.get(`http://localhost:5000/get/:id`);
-      console.log(response.data);
-      setData(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
+  if (!data) {
+    return <div>Loading...</div>; // Veri yüklenene kadar yüklenme durumunu göster
+  }
+
+  switch (categoryName) {
+    case "Vasita" || "Vasıta":
+      categorizedDetailsComponent = <VehicleDetails data={data} />;
+      break;
+    case "Emlak" || "emlak":
+      categorizedDetailsComponent = <ResidenceDetails data={data} />;
+      break;
+
+    case "Elektronik":
+      categorizedDetailsComponent = <ElectronicDetails data={data} />;
+      break;
+    case "Moda":
+      categorizedDetailsComponent = <FashionDetails data={data} />;
+      break;
+
+    case "YedekParca":
+      categorizedDetailsComponent = <SparePartDetails data={data} />;
+      break;
+    case "EvBahce":
+      categorizedDetailsComponent = <HomeAndGardenDetails data={data} />;
+      break;
+    case "İkinciEl":
+      categorizedDetailsComponent = <SecondHandDetails data={data} />;
+      break;
+    default:
+      categorizedDetailsComponent = null;
+  }
 
   return (
     <>
       <Navbar isScrolled={isScrolled} />
       <Container className="container">
-        <h1>Supra</h1>
+        <h1>{data.title}</h1>
         <hr />
         <div className="row">
           <div>
@@ -64,23 +107,16 @@ function Details(props) {
                 style={{ width: "90%", height: "90%" }}
               />
             </div>
-            <div
-              className="d-flex flex-row justify-content-between"
-              style={{ width: "36rem" }}
-            >
-              <div className="card">
-                <img src={Image2} className="card-img-top" alt="Image2" />
-              </div>
-              <div className="card">
-                <img src={Image1} className="card-img-top" alt="Image1" />
-              </div>
-              <div className="card">
-                <img src={Image2} className="card-img-top" alt="Image2" />
-              </div>
-            </div>
           </div>
           <div className="col-md-3">
-            <h5 className="text-primary">13000</h5>
+            <div className="d-flex justify-content-start">
+              <h5>
+                <b>Fiyat:</b>
+              </h5>
+              <h5 style={{ marginLeft: "20px" }} className="text-primary">
+                {data.price}
+              </h5>
+            </div>
             <div className="bread">
               <nav aria-label="breadcrumb">
                 <ol style={{ backgroundColor: "white" }} className="breadcrumb">
@@ -100,12 +136,12 @@ function Details(props) {
             <Divider />
             <div className="d-flex flex-nowrap justify-content-between">
               <b>İlan Tarihi</b>
-              <p>10 Mayıs 2023</p>
+              <p>{data.dateCreated}</p>
             </div>
             <Divider />
-            <VehicleDetails data={data} />
+            {categorizedDetailsComponent}
           </div>
-          <UserContact name={"Sezer Karakaş"} phoneNumber={"2565691216"} />
+          <UserContact data={data} />
         </div>
         <br />
         <div className="row">
@@ -131,7 +167,7 @@ function Details(props) {
                 role="tabpanel"
                 aria-labelledby="about-tab"
               >
-                İlan Detayları
+                {data.description}
               </div>
               <div
                 className={`tab-pane fade ${

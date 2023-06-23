@@ -5,7 +5,6 @@ const Advert = require("../AdvertModel");
 
 const SecondHandSchema = new Schema({
   category: { type: Schema.Types.ObjectId, ref: "Category" },
-  turu: { type: String, required: true },
   marka: { type: String, required: true },
   model: { type: String, required: true },
   durumu: { type: String, required: true },

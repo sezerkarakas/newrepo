@@ -24,14 +24,13 @@ function Home() {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/getAll");
+      const response = await axios.get("http://localhost:5000/getAll");
       setData(response.data);
       console.log(response.data);
     } catch (error) {
       console.error("Veri alınırken bir hata oluştu:", error);
     }
   };
-
 
   /*
   useEffect(() => {
@@ -62,49 +61,49 @@ function Home() {
 
   const cards = [
     {
-      id: "1",
+      _id: "1",
       title: "ilan 1",
       image: Image1,
       price: "100 TL",
     },
     {
-      id: "2",
+      _id: "2",
       title: "ilan 2",
       image: Image2,
       price: "200 TL",
     },
     {
-      id: "3",
+      _id: "3",
       title: "ilan 3",
       image: Image3,
       price: "300 TL",
     },
     {
-      id: "4",
+      _id: "4",
       title: "ilan 4",
       image: Image2,
       price: "400 TL",
     },
     {
-      id: "5",
+      _id: "5",
       title: "ilan 5",
       image: Image3,
       price: "500 TL",
     },
     {
-      id: "6",
+      _id: "6",
       title: "ilan 6",
       image: Image1,
       price: "600 TL",
     },
     {
-      id: "7",
+      _id: "7",
       title: "ilan 7",
       image: Image3,
       price: "700 TL",
     },
     {
-      id: "8",
+      _id: "8",
       title: "ilan 8",
       image: Image2,
       price: "800 TL",
@@ -112,37 +111,37 @@ function Home() {
   ];
   const residence = [
     {
-      id: 1,
+      _id: 1,
       title: "ilan 1",
       image: Image3,
       price: "100 TL",
     },
     {
-      id: 2,
+      _id: 2,
       title: "ilan 2",
       image: Image3,
       price: "200 TL",
     },
     {
-      id: 3,
+      _id: 3,
       title: "ilan 3",
       image: Image3,
       price: "200 TL",
     },
     {
-      id: 4,
+      _id: 4,
       title: "ilan 4",
       image: Image3,
       price: "200 TL",
     },
     {
-      id: 5,
+      _id: 5,
       title: "ilan 5",
       image: Image3,
       price: "200 TL",
     },
     {
-      id: 6,
+      _id: 6,
       title: "ilan 6",
       image: Image3,
       price: "200 TL",
@@ -198,17 +197,18 @@ function Home() {
           {searchWord === ""
             ? visibleItems.map((item) => (
                 <Card
-                  key={item.id}
-                  id={item.id}
+                  key={item._id}
+                  _id={item._id}
                   title={item.title}
                   image={item.image}
                   price={item.price}
+                  isLiked={false}
                 />
               ))
             : ads.map((ad) => (
                 <Card
-                  key={ad.id}
-                  id={ad.id}
+                  key={ad._id}
+                  _id={ad._id}
                   title={ad.title}
                   image={ad.image}
                   price={ad.price}
@@ -246,7 +246,7 @@ function Home() {
       <MainContent>
         <ToastContainer />
         <Sidebar />
-       
+
         <div className="container">
           <div>
             <div className="row">

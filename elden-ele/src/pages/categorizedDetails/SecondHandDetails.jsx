@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
-function SecondHandDetails({ turu, marka, model, durumu, takas }) {
+function SecondHandDetails({ data }) {
+  const { turu, marka, model, durumu, takas } = data;
   return (
     <>
       <div className="d-flex flex-nowrap justify-content-between">

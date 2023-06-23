@@ -1,8 +1,10 @@
 import styled from "styled-components";
-function HomeAndGarden({malzeme, turu, marka, renk, durumu, garanti}) {
+function HomeAndGarden({ data }) {
+  const { malzeme, turu, marka, renk, durumu, garanti } = data;
+
   return (
     <>
-        <div className="d-flex flex-nowrap justify-content-between">
+      <div className="d-flex flex-nowrap justify-content-between">
         <b>Malzeme</b>
         <p>{malzeme}</p>
       </div>
@@ -31,9 +33,8 @@ function HomeAndGarden({malzeme, turu, marka, renk, durumu, garanti}) {
         <b>Garanti </b>
         <p>{garanti ? "Var" : "Yok"}</p>
       </div>
-      
     </>
-  )
+  );
 }
 
 const Divider = styled.div`
@@ -41,4 +42,4 @@ const Divider = styled.div`
   padding: 2px 0;
 `;
 
-export default HomeAndGarden
+export default HomeAndGarden;

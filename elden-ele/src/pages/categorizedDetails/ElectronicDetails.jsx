@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
-function ElektronicDetails({marka, model, turu, renk, garanti}) {
+function ElektronicDetails({ data }) {
+  const { marka, model, turu, renk, garanti } = data;
   return (
     <>
       <div className="d-flex flex-nowrap justify-content-between">
